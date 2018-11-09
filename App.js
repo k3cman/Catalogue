@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from 'react-navigation';
+import {
+  createBottomTabNavigator,
+  createStackNavigator
+} from 'react-navigation';
 
 import Explore from './app/components/screens/Explore';
 import Calculator from './app/components/screens/Calculator';
 import Saved from './app/components/screens/Saved';
 import Catalogue from './app/components/screens/Catalogue';
+import SingleProduct from './app/components/product/SingleProduct';
 
 export default createBottomTabNavigator(
   {
