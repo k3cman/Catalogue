@@ -3,27 +3,34 @@ import { Text, View, ImageBackground, TouchableOpacity } from 'react-native';
 
 const CategoryCard = props => {
   return (
-    <View style={styles.category}>
+    <View
+      style={{
+        width: 150,
+        height: 150,
+        flex: 1
+      }}
+    >
       <ImageBackground
+        source={{
+          uri: props.imgUrl
+        }}
         style={{
+          width: '100%',
+          height: '100%',
+          resizeMode: 'contain',
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center'
         }}
-        source={{
-          uri: props.imgUri
-        }}
       >
         <Text
           style={{
-            fontFamily: 'Righteous',
             fontSize: 20,
-            textDecorationLine: 'underline',
-            textDecorationStyle: 'solid',
-            color: props.textColor
+            fontWeight: '700',
+            color: 'white'
           }}
         >
-          {props.title}
+          {props.text}
         </Text>
       </ImageBackground>
     </View>

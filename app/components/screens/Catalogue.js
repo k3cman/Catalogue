@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   ImageBackground,
+  Image,
   TouchableOpacity,
   Button,
   TouchableNativeFeedback,
@@ -17,6 +18,7 @@ import { createStackNavigator } from 'react-navigation';
 import CatalogueCard from '../catalogue/CategoryCard';
 import SingleProduct from '../product/SingleProduct';
 import SingleCategory from '../product/SingleCategory';
+import CategoryCard from '../catalogue/CategoryCard';
 
 class Catalogue extends Component {
   state = {
@@ -73,54 +75,14 @@ class Catalogue extends Component {
           </View>
           <View style={styles.catalogue}>
             {this.state.categories.map(cat => (
-              <TouchableWithoutFeedback
-                onPress={() => this.props.navigation.navigate('category')}
+              <TouchableOpacity
+                style={{ width: 150, height: 150, flex: 1 }}
+                onPress={() => this.props.navigation.navigate('product')}
                 key={cat.id}
               >
-                <CatalogueCard
-                  title={cat.title}
-                  imgUri={cat.imgUri}
-                  textColor={cat.color}
-                  key={cat.id}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </TouchableWithoutFeedback>
+                <CategoryCard imageUrl={cat.imgUri} text={cat.title} />
+              </TouchableOpacity>
             ))}
-            {/* <CatalogueCard
-              title="PLOČICE"
-              imgUri="https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg"
-              textColor="white"
-            />
-
-            <CatalogueCard
-              title="PLOČICE"
-              imgUri="https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg"
-              textColor="white"
-            />
-            <CatalogueCard
-              title="PLOČICE"
-              imgUri="https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg"
-              textColor="white"
-            />
-            <CatalogueCard
-              title="PLOČICE"
-              imgUri="https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg"
-              textColor="white"
-            />
-            <CatalogueCard
-              title="PLOČICE"
-              imgUri="https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg"
-              textColor="white"
-            />
-            <CatalogueCard
-              title="PLOČICE"
-              imgUri="https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg"
-              textColor="white"
-            /> */}
-            <Button
-              title="singleProduct"
-              onPress={() => this.props.navigation.navigate('category')}
-            />
           </View>
         </SafeAreaView>
       </ScrollView>
