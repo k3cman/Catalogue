@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import {
   Text,
+  StyleSheet,
   View,
-  ScrollView,
   SafeAreaView,
-  ImageBackground,
-  StyleSheet
+  ScrollView,
+  Image,
+  TouchableOpacity
 } from 'react-native';
 
-export default class SingleCategory extends Component {
+import { createStackNavigator } from 'react-navigation';
+
+import SingleProduct from './SingleProduct';
+
+class SingleCategory extends Component {
   state = {
     products: [
       {
@@ -48,45 +53,70 @@ export default class SingleCategory extends Component {
       }
     ]
   };
+  static navigationOptions = {
+    header: null
+  };
+  _onPressCard = () => {
+    return this.props.navigation.navigate('product');
+  };
   render() {
-    return (
-      <ScrollView style={{ flex: 1 }} scrollEventThrottle={16}>
-        <SafeAreaView style={styles.screenStyle}>
-          <View style={styles.catalogue}>
-            {this.state.products.map(product => (
-              <View style={styles.category} key={product.id}>
-                <ImageBackground
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                  source={{
-                    uri: product.image
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: 'Righteous',
-                      fontSize: 20,
-                      textDecorationLine: 'underline',
-                      textDecorationStyle: 'solid',
-                      color: 'white'
-                    }}
-                  >
-                    {product.name}
-                  </Text>
-                </ImageBackground>
-              </View>
-            ))}
+    const productsMap = this.state.products.map(product => {
+      return (
+        <TouchableOpacity
+          style={styles.singleCat}
+          onPress={this._onPressCard}
+          key={product.id}
+        >
+          <View style={styles.card}>
+            <Image
+              style={{ width: 150, height: 150, resizeMode: 'contain' }}
+              source={{
+                uri: product.image
+              }}
+            />
+            <Text
+              style={{
+                textAlign: 'center',
+                textTransform: 'uppercase',
+                fontWeight: '600',
+                padding: 6
+              }}
+            >
+              {product.name}
+            </Text>
           </View>
+        </TouchableOpacity>
+      );
+    });
+    return (
+      <ScrollView
+        style={{ flex: 1 }}
+        scrollEventThrottle={16}
+        style={{ backgroundColor: '#f1f1f1' }}
+      >
+        <SafeAreaView style={styles.screenStyle}>
+          <View style={styles.catalogue}>{productsMap}</View>
         </SafeAreaView>
       </ScrollView>
     );
   }
 }
 
+export default createStackNavigator({
+  main: SingleCategory,
+  product: SingleProduct
+});
+
 const styles = StyleSheet.create({
+  singleCat: {
+    marginTop: 10
+  },
+  card: {
+    borderColor: '#ccc',
+    borderWidth: 0.5,
+    borderRadius: 3,
+    backgroundColor: 'white'
+  },
   catalogue: {
     flex: 1,
     width: '100%',
@@ -102,12 +132,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#F1F1F1',
     paddingTop: 40,
     paddingBottom: 100
-  },
-  category: {
-    width: '45%',
-    height: 150,
-    marginTop: 20,
-    elevation: 1,
-    borderRadius: 6
   }
 });

@@ -5,20 +5,14 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  ImageBackground,
   Image,
-  TouchableOpacity,
-  Button,
-  TouchableNativeFeedback,
-  TouchableWithoutFeedback
+  TouchableOpacity
 } from 'react-native';
 import HeadingTextCenter from '../common/HeadingTextCenter';
 
 import { createStackNavigator } from 'react-navigation';
-import CatalogueCard from '../catalogue/CategoryCard';
 import SingleProduct from '../product/SingleProduct';
 import SingleCategory from '../product/SingleCategory';
-import CategoryCard from '../catalogue/CategoryCard';
 
 class Catalogue extends Component {
   state = {
@@ -66,24 +60,50 @@ class Catalogue extends Component {
   static navigationOptions = {
     header: null
   };
+
+  _onPressCard = () => {
+    return this.props.navigation.navigate('category');
+  };
   render() {
+    const catMap = this.state.categories.map(cat => {
+      return (
+        <TouchableOpacity
+          style={styles.singleCat}
+          onPress={this._onPressCard}
+          key={cat.id}
+        >
+          <View style={styles.card}>
+            <Image
+              style={{ width: 150, height: 150, resizeMode: 'cover' }}
+              source={{
+                uri: cat.imgUri
+              }}
+            />
+            <Text
+              style={{
+                textAlign: 'center',
+                textTransform: 'uppercase',
+                fontWeight: '600',
+                padding: 6
+              }}
+            >
+              {cat.title}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    });
     return (
-      <ScrollView style={{ flex: 1 }} scrollEventThrottle={16}>
+      <ScrollView
+        style={{ flex: 1 }}
+        scrollEventThrottle={16}
+        style={{ backgroundColor: '#f1f1f1' }}
+      >
         <SafeAreaView style={styles.screenStyle}>
           <View>
             <HeadingTextCenter title="KATEGORIJE PROIZVODA" />
           </View>
-          <View style={styles.catalogue}>
-            {this.state.categories.map(cat => (
-              <TouchableOpacity
-                style={{ width: 150, height: 150, flex: 1 }}
-                onPress={() => this.props.navigation.navigate('product')}
-                key={cat.id}
-              >
-                <CategoryCard imageUrl={cat.imgUri} text={cat.title} />
-              </TouchableOpacity>
-            ))}
-          </View>
+          <View style={styles.catalogue}>{catMap}</View>
         </SafeAreaView>
       </ScrollView>
     );
@@ -97,6 +117,15 @@ export default createStackNavigator({
 });
 
 const styles = StyleSheet.create({
+  singleCat: {
+    marginTop: 10
+  },
+  card: {
+    borderColor: '#ccc',
+    borderWidth: 0.5,
+    borderRadius: 3,
+    backgroundColor: 'white'
+  },
   catalogue: {
     flex: 1,
     width: '100%',

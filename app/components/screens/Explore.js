@@ -6,7 +6,8 @@ import {
   SafeAreaView,
   ScrollView,
   ImageBackground,
-  ActivityIndicator
+  ActivityIndicator,
+  Image
 } from 'react-native';
 import { Font } from 'expo';
 
@@ -38,6 +39,21 @@ export default class Explore extends Component {
       return (
         <ScrollView style={{ flex: 1 }} scrollEventThrottle={16}>
           <SafeAreaView style={styles.screenStyle}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingBottom: 10
+              }}
+            >
+              <Image
+                source={{
+                  uri: 'http://www.enmongroup.com/assets/images/logo-big.png'
+                }}
+                style={{ height: 35, width: 150 }}
+              />
+            </View>
             <HeadingText title="OTKRIJ" />
             <View style={styles.verticalScroll}>
               <ScrollView
