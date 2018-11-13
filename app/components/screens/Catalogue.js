@@ -74,7 +74,7 @@ class Catalogue extends Component {
         >
           <View style={styles.card}>
             <Image
-              style={{ width: 150, height: 150, resizeMode: 'cover' }}
+              style={{ width: 140, height: 140, resizeMode: 'cover' }}
               source={{
                 uri: cat.imgUri
               }}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingHorizontal: 30
+    paddingHorizontal: 10
   },
   screenStyle: {
     flex: 1,

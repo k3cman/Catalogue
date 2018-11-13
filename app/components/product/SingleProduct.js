@@ -5,132 +5,160 @@ import {
   ScrollView,
   SafeAreaView,
   Image,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 
 class SingleProduct extends Component {
+  state={
+    details:null,
+    isLoading:true
+  }
   static navigationOptions = {
     header: null
   };
+  componentDidMount = () => {
+    console.log(this.props.navigation.state.params.itemId)
+    const itemId = Number(this.props.navigation.state.params.itemId);
+    fetch('https://enmon-server.herokuapp.com/details/'+itemId)
+    .then(res => res.json())
+    .then(data => this.setState({details:{data}}))
+    .then(() => this.setState({isLoading:false}))
+  }
   render() {
-    return (
-      <ScrollView
+    if(this.state.isLoading ===true){
+      return (<ScrollView
         style={{ flex: 1 }}
         scrollEventThrottle={16}
         style={{ backgroundColor: '#f1f1f1' }}
       >
         <SafeAreaView style={styles.screenStyle}>
           <View style={styles.catalogue}>
-            <View style={styles.card}>
-              <Image
-                style={{ width: 350, height: 350, resizeMode: 'contain' }}
-                source={{
-                  uri: 'http://cms.enmongroup.com/images/items/jlJvOjLG4t.jpg'
-                }}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Text style={styles.productName}>TOSCANO GREY</Text>
-              <Text style={styles.dimension}>22.5x60</Text>
-            </View>
-          </View>
-          <View style={styles.table}>
-            <View style={styles.row}>
-              <Text
-                style={{
-                  fontWeight: '700',
-                  flex: 1,
-                  borderRightColor: '#ccc',
-                  borderRightWidth: 0.5,
-
-                  fontSize: 12
-                }}
-              >
-                Brand
-              </Text>
-              <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
-                ARGENTA CERAMICA SL
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text
-                style={{
-                  fontWeight: '700',
-                  flex: 1,
-                  borderRightColor: '#ccc',
-                  borderRightWidth: 0.5,
-
-                  fontSize: 12
-                }}
-              >
-                Brand
-              </Text>
-              <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
-                ARGENTA CERAMICA SL
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text
-                style={{
-                  fontWeight: '700',
-                  flex: 1,
-                  borderRightColor: '#ccc',
-                  borderRightWidth: 0.5,
-
-                  fontSize: 12
-                }}
-              >
-                Brand
-              </Text>
-              <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
-                ARGENTA CERAMICA SL
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text
-                style={{
-                  fontWeight: '700',
-                  flex: 1,
-                  borderRightColor: '#ccc',
-                  borderRightWidth: 0.5,
-
-                  fontSize: 12
-                }}
-              >
-                Brand
-              </Text>
-              <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
-                ARGENTA CERAMICA SL
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text
-                style={{
-                  fontWeight: '700',
-                  flex: 1,
-                  borderRightColor: '#ccc',
-                  borderRightWidth: 0.5,
-
-                  fontSize: 12
-                }}
-              >
-                Brand
-              </Text>
-              <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
-                ARGENTA CERAMICA SL
-              </Text>
-            </View>
+            <ActivityIndicator size="large" color="#333333" />
           </View>
         </SafeAreaView>
-      </ScrollView>
-    );
-  }
+      </ScrollView>)
+    }else{
+      return (
+        <ScrollView
+          style={{ flex: 1 }}
+          scrollEventThrottle={16}
+          style={{ backgroundColor: '#f1f1f1' }}
+        >
+          <SafeAreaView style={styles.screenStyle}>
+            <View style={styles.catalogue}>
+              <View style={styles.card}>
+                <Image
+                  style={{ width: 350, height: 350, resizeMode: 'contain' }}
+                  source={{
+                    uri: 'http://cms.enmongroup.com/'+this.state.details.data[0].image
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Text style={styles.productName}>{this.state.details.data[0].title}</Text>
+                <Text style={styles.dimension}>22.5x60</Text>
+              </View>
+            </View>
+            <View style={styles.table}>
+              <View style={styles.row}>
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    flex: 1,
+                    borderRightColor: '#ccc',
+                    borderRightWidth: 0.5,
+  
+                    fontSize: 12
+                  }}
+                >
+                  Brand
+                </Text>
+                <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
+                  ARGENTA CERAMICA SL
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    flex: 1,
+                    borderRightColor: '#ccc',
+                    borderRightWidth: 0.5,
+  
+                    fontSize: 12
+                  }}
+                >
+                  Brand
+                </Text>
+                <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
+                  ARGENTA CERAMICA SL
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    flex: 1,
+                    borderRightColor: '#ccc',
+                    borderRightWidth: 0.5,
+  
+                    fontSize: 12
+                  }}
+                >
+                  Brand
+                </Text>
+                <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
+                  ARGENTA CERAMICA SL
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    flex: 1,
+                    borderRightColor: '#ccc',
+                    borderRightWidth: 0.5,
+  
+                    fontSize: 12
+                  }}
+                >
+                  Brand
+                </Text>
+                <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
+                  ARGENTA CERAMICA SL
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    flex: 1,
+                    borderRightColor: '#ccc',
+                    borderRightWidth: 0.5,
+  
+                    fontSize: 12
+                  }}
+                >
+                  Brand
+                </Text>
+                <Text style={{ flex: 3, fontSize: 12, paddingLeft: 10 }}>
+                  ARGENTA CERAMICA SL
+                </Text>
+              </View>
+            </View>
+          </SafeAreaView>
+        </ScrollView>
+      );
+    }
+    }
+    
 }
 
 const styles = StyleSheet.create({

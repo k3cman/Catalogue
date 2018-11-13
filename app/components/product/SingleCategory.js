@@ -6,7 +6,8 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 
 import { createStackNavigator } from 'react-navigation';
@@ -15,90 +16,80 @@ import SingleProduct from './SingleProduct';
 
 class SingleCategory extends Component {
   state = {
-    products: [
-      {
-        id: 1,
-        name: 'Product',
-        image: 'http://cms.enmongroup.com/images/items/TlPNfbXQ6x.jpg'
-      },
-      {
-        id: 2,
-        name: 'Product',
-        image: 'http://cms.enmongroup.com/images/items/TlPNfbXQ6x.jpg'
-      },
-      {
-        id: 3,
-        name: 'Product',
-        image: 'http://cms.enmongroup.com/images/items/TlPNfbXQ6x.jpg'
-      },
-      {
-        id: 4,
-        name: 'Product',
-        image: 'http://cms.enmongroup.com/images/items/TlPNfbXQ6x.jpg'
-      },
-      {
-        id: 5,
-        name: 'Product',
-        image: 'http://cms.enmongroup.com/images/items/TlPNfbXQ6x.jpg'
-      },
-      {
-        id: 6,
-        name: 'Product',
-        image: 'http://cms.enmongroup.com/images/items/TlPNfbXQ6x.jpg'
-      },
-      {
-        id: 7,
-        name: 'Product',
-        image: 'http://cms.enmongroup.com/images/items/TlPNfbXQ6x.jpg'
-      }
-    ]
+    products: [],
+    isLoading:true
   };
+  componentDidMount = () => {
+    fetch('https://enmon-server.herokuapp.com/products/14/0')
+    .then(res => res.json())
+    .then(data => this.setState({products:data,isLoading:false}))
+    .catch(err => alert(err));
+  }
   static navigationOptions = {
     header: null
   };
-  _onPressCard = () => {
-    return this.props.navigation.navigate('product');
+  _onPressCard = (id) => {
+    return this.props.navigation.navigate('product',{itemId:`${id}`});
   };
   render() {
     const productsMap = this.state.products.map(product => {
       return (
         <TouchableOpacity
           style={styles.singleCat}
-          onPress={this._onPressCard}
-          key={product.id}
+          onPress={() => this.props.navigation.navigate('product',{itemId:product.id})}
+          key={product.ident}
         >
           <View style={styles.card}>
             <Image
-              style={{ width: 150, height: 150, resizeMode: 'contain' }}
+              style={{ width: 140, height: 140, padding:2 ,resizeMode: 'contain' }}
               source={{
-                uri: product.image
+                uri: `http://cms.enmongroup.com/${product.image}`
               }}
             />
-            <Text
+            
+          </View>
+          <Text
               style={{
                 textAlign: 'center',
                 textTransform: 'uppercase',
                 fontWeight: '600',
-                padding: 6
+                padding: 6,
+                width:140
               }}
             >
-              {product.name}
+              {product.title}
             </Text>
-          </View>
         </TouchableOpacity>
       );
     });
-    return (
-      <ScrollView
+    if(this.state.isLoading){
+      return (
+        <ScrollView
         style={{ flex: 1 }}
         scrollEventThrottle={16}
         style={{ backgroundColor: '#f1f1f1' }}
       >
         <SafeAreaView style={styles.screenStyle}>
-          <View style={styles.catalogue}>{productsMap}</View>
+          <View style={styles.catalogue}>
+            <ActivityIndicator size="large" color="#333333" />
+          </View>
         </SafeAreaView>
       </ScrollView>
-    );
+      )
+    }else{
+
+      return (
+        <ScrollView
+          style={{ flex: 1 }}
+          scrollEventThrottle={16}
+          style={{ backgroundColor: '#f1f1f1' }}
+        >
+          <SafeAreaView style={styles.screenStyle}>
+            <View style={styles.catalogue}>{productsMap}</View>
+          </SafeAreaView>
+        </ScrollView>
+      );
+    }
   }
 }
 
@@ -112,6 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   card: {
+    width:140,
     borderColor: '#ccc',
     borderWidth: 0.5,
     borderRadius: 3,
