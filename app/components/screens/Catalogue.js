@@ -22,38 +22,38 @@ class Catalogue extends Component {
         imgUri:
           'https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg',
         color: 'white',
-        id: 1
+        id: 14
       },
       {
         title: 'LEPAK',
         imgUri: 'http://cms.enmongroup.com/images/categories/0F6E3z0AxW.jpg',
         color: '#333',
-        id: 6
+        id: 17
       },
       {
         title: 'SANITARIJA',
         imgUri: 'http://cms.enmongroup.com/images/categories/i4cpAvLniP.jpg',
         color: '#333',
-        id: 2
+        id: 22
       },
       {
         title: 'KABINE',
         imgUri: 'http://cms.enmongroup.com/images/categories/RZm3bPl5Cl.jpg',
         color: 'white',
-        id: 3
+        id: 11
       },
       {
         title: 'SLAVINE',
         imgUri: 'http://cms.enmongroup.com/images/categories/uAKJeYlndI.jpg',
         color: '#333',
-        id: 4
+        id: 5
       },
 
       {
         title: 'KADE',
         imgUri: 'http://cms.enmongroup.com/images/categories/eIPeq42b4e.jpg',
         color: '#333',
-        id: 5
+        id: 12
       }
     ]
   };
@@ -62,14 +62,14 @@ class Catalogue extends Component {
   };
 
   _onPressCard = () => {
-    return this.props.navigation.navigate('category');
+    return ;
   };
   render() {
     const catMap = this.state.categories.map(cat => {
       return (
         <TouchableOpacity
           style={styles.singleCat}
-          onPress={this._onPressCard}
+          onPress={()=>this.props.navigation.navigate('category',{catId:cat.id})}
           key={cat.id}
         >
           <View style={styles.card}>

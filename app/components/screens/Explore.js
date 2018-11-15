@@ -7,16 +7,22 @@ import {
   ScrollView,
   ImageBackground,
   ActivityIndicator,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native';
 import { Font } from 'expo';
+import {createStackNavigator} from 'react-navigation'
 
 import HeadingText from '../common/HeadingText';
 import ImageCardMd from '../common/ImageCardMd';
 import CircleIcon from '../common/CircleIcon';
 import SeriesCardMd from '../common/SeriesCardMd';
+import SerieScreen from '../containers/SerieScreen';
 
-export default class Explore extends Component {
+class Explore extends Component {
+  static navigationOptions = {
+    header: null
+  };
   state = {
     fontLoading: true
   };
@@ -90,25 +96,32 @@ export default class Explore extends Component {
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-              >
-                <SeriesCardMd
+              ><TouchableOpacity onPress={()=> this.props.navigation.navigate('SerieScreen',{text:'-CAPANNA-1-',mainImg:'https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg'})}>
+<SeriesCardMd
                   color="white"
                   title="CAPANNA"
                   subtitle="30x60"
                   image="https://www.zorka-keramika.rs/images/ideje/dnevne_sobe_i_trpezarije/Accademia_Mix_30x60.jpg"
                 />
+              </TouchableOpacity>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate('SerieScreen',{text:'-G-CALAC-',mainImg:'http://www.ru.enmongroup.com/assets/bg2.jpg'})}>
+
                 <SeriesCardMd
                   color="#333"
                   title="CALACATA"
                   subtitle="60x60 / 120x60"
                   image="http://www.ru.enmongroup.com/assets/bg2.jpg"
                 />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate('SerieScreen',{text:'-Eurostyle-',mainImg:'http://townandcountrybathrooms.ie/wp-content/uploads/2018/03/Eurostyle-Moon-White.Grohe_.jpg'})}>
+
                 <SeriesCardMd
                   color="#333"
                   title="EUROSTYLE"
                   subtitle="slavine"
                   image="http://townandcountrybathrooms.ie/wp-content/uploads/2018/03/Eurostyle-Moon-White.Grohe_.jpg"
                 />
+                </TouchableOpacity>
               </ScrollView>
             </View>
             <View style={{ marginLeft: -10, paddingTop: 20 }}>
@@ -218,6 +231,12 @@ export default class Explore extends Component {
     }
   }
 }
+
+export default createStackNavigator({
+  main: Explore,
+  SerieScreen: SerieScreen,
+  
+});
 
 const styles = {
   blog: {

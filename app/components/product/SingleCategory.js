@@ -7,7 +7,8 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Button
 } from 'react-native';
 
 import { createStackNavigator } from 'react-navigation';
@@ -17,10 +18,13 @@ import SingleProduct from './SingleProduct';
 class SingleCategory extends Component {
   state = {
     products: [],
-    isLoading:true
+    isLoading:true,
+    page:0,
+    btnLoading:false
   };
   componentDidMount = () => {
-    fetch('https://enmon-server.herokuapp.com/products/14/0')
+    const catId = this.props.navigation.state.params.catId;
+    fetch(`https://enmon-server.herokuapp.com/products/${catId}/0`)
     .then(res => res.json())
     .then(data => this.setState({products:data,isLoading:false}))
     .catch(err => alert(err));
@@ -31,6 +35,15 @@ class SingleCategory extends Component {
   _onPressCard = (id) => {
     return this.props.navigation.navigate('product',{itemId:`${id}`});
   };
+  onPressLoadMore = () => {
+    this.setState({btnLoading:true})
+    const page = this.state.page + 1
+    const catId = this.props.navigation.state.params.catId;
+    fetch(`https://enmon-server.herokuapp.com/products/${catId}/${page}`)
+    .then(json => json.json())
+    .then(data => this.setState({products:[...this.state.products, ...data], btnLoading:false, page: page}))
+
+  }
   render() {
     const productsMap = this.state.products.map(product => {
       return (
@@ -86,6 +99,13 @@ class SingleCategory extends Component {
         >
           <SafeAreaView style={styles.screenStyle}>
             <View style={styles.catalogue}>{productsMap}</View>
+            <Button
+            title="Load More"
+            backgroundColor="#333"
+            color="#333"
+            style={styles.btnLoad}
+              onPress={this.onPressLoadMore}
+            ></Button>
           </SafeAreaView>
         </ScrollView>
       );
@@ -99,6 +119,9 @@ export default createStackNavigator({
 });
 
 const styles = StyleSheet.create({
+  btnLoad:{
+    width:150,
+  },
   singleCat: {
     marginTop: 10
   },
